@@ -1,0 +1,57 @@
+﻿@model ShareURLink.ViewModels.LinkUserViewModel
+
+@{
+    ViewData["Title"] = "User profile";
+}
+
+<div>
+    <h4>Your profile</h4>
+    <hr />
+    <p>
+        <a class="btn btn-primary" asp-controller="Link" asp-action="Create">Add New Link</a> <a asp-controller="home" asp-action="Index">Back to List</a>
+    </p>    
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HeadersForTable.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeadersForTable.Title)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.HeadersForTable.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeadersForTable.Likes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int rowNumber = 0;}
+        @foreach (var item in Model.Links)
+        {
+            <tr>
+                <td>
+                    @(rowNumber +=1 )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)<br />
+                    <a href="@Html.DisplayFor(modelItem => item.LinkURL)">@Html.DisplayFor(modelItem => item.LinkURL)</a>
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LikesCount)
+                </td>
+                <td>
+                    <a asp-controller="Link" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
