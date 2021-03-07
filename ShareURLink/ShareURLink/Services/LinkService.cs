@@ -35,20 +35,15 @@ namespace ShareURLink.Services
             return link;
         }
 
-        public LinkModel EditLink(LinkModel linkModel)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveLink(int id)
         {
-            var linkModel = _context.Links.FirstOrDefault(x => x.Id == id);
-            var like = _context.Likes.FirstOrDefault(x => x.Link == linkModel);
+            var link = _context.Links.FirstOrDefault(x => x.Id == id);
+            var like = _context.Likes.FirstOrDefault(x => x.Link == link);
             if (!(like is null))
             {
                 _context.Likes.Remove(like);
             }           
-            _context.Links.Remove(linkModel);
+            _context.Links.Remove(link);
             _context.SaveChanges();
         }
 
@@ -72,49 +67,36 @@ namespace ShareURLink.Services
         {
             var link = _context.Links.Include(x => x.Likes).FirstOrDefault(x => x.Id == id);
             var userData = _context.Users.Include(y => y.MyLinks).Include(z => z.LinksILike).FirstOrDefault(x => x.Id == user.Id);
-            var like = new LikeModel();            
-
+            
             if (userData.LinksILike is null)
             {
-                _likeService.Create(link, user);
-                LikesCountOfLink(link);
-            }            
-            else if (userData.MyLinks.Contains(link))
+                _likeService.CreateLike(link, user);
+                LikesCounter(link);
+            }
+            else if(userData.MyLinks.Contains(link))
             {
                 return;
             }
-            else if (!(userData.LinksILike.Any(x => x.Link == link)))
-            {
-                _likeService.Create(link, user);
-                LikesCountOfLink(link);
-            }
             else
             {
-                like = userData.LinksILike.FirstOrDefault(x => x.Link == link);
-                if (like.LikedOrNot == true)
+                if (userData.LinksILike.Any(x => x.Link == link))
                 {
-                    like.LikedOrNot = false;
-                    _context.Likes.Update(like);
-                    _context.SaveChanges();
-                    LikesCountOfLink(link);
+                    _likeService.RemoveLike(link, user);
+                    LikesCounter(link);
                 }
                 else
                 {
-                    like.LikedOrNot = true;
-                    _context.Likes.Update(like);
-                    _context.SaveChanges();
-                    LikesCountOfLink(link);
+                    _likeService.CreateLike(link, user);
+                    LikesCounter(link);
                 }
             }
         }
 
-        public void LikesCountOfLink(LinkModel linkLikesCount)
+        public void LikesCounter(LinkModel link)
         {
-            var x = linkLikesCount.Likes.Where(x => x.LikedOrNot == true);
-            linkLikesCount.LikesCount = linkLikesCount.Likes.Where(x => x.LikedOrNot == true).Count();
-            _context.Links.Update(linkLikesCount);
+            link.LikesCount = link.Likes.Count();
+            _context.Links.Update(link);
             _context.SaveChanges();
-            return;
         }
     }
 }

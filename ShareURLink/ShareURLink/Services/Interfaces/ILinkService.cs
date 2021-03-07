@@ -13,9 +13,9 @@ namespace ShareURLink.Services.Interfaces
         public List<LinkModel> GetLinks();
         public LinkModel GetLink(int id);
         public LinkModel AddLink(LinkModel linkUser);
-        public LinkModel EditLink(LinkModel linkModel);
         public void RemoveLink(int id);
         public List<LinkModel> GetLinksByUserName(string name);
         public void LikeIt(UserModel user, int id);
+        public void LikesCounter(LinkModel link);
     }
 }

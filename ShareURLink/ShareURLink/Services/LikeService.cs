@@ -15,13 +15,20 @@ namespace ShareURLink.Services
         {
             _context = context;
         }
-        public void Create(LinkModel link, UserModel user)
+        public void CreateLike(LinkModel link, UserModel user)
         {
-            var like = new LikeModel();
-            like.User = user;
-            like.Link = link;
-            like.LikedOrNot = true;
+            var like = new LikeModel
+            {
+                User = user,
+                Link = link
+            };
             _context.Likes.Add(like);
+            _context.SaveChanges();
+        }
+
+        public void RemoveLike(LinkModel link, UserModel user)
+        {
+            _context.Likes.Remove(_context.Likes.FirstOrDefault(like => like.Link == link & like.User == user));
             _context.SaveChanges();
         }
     }

@@ -10,8 +10,8 @@ using ShareURLink.Context;
 namespace ShareURLink.Migrations
 {
     [DbContext(typeof(URLDbContext))]
-    [Migration("20210303223848_Likes2")]
-    partial class Likes2
+    [Migration("20210306213204_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,13 +159,15 @@ namespace ShareURLink.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("LinkId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("linkId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("LinkId");
 
                     b.HasIndex("UserId");
 
@@ -182,7 +184,7 @@ namespace ShareURLink.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Likes")
+                    b.Property<int>("LikesCount")
                         .HasColumnType("int");
 
                     b.Property<string>("LinkURL")
@@ -323,9 +325,15 @@ namespace ShareURLink.Migrations
 
             modelBuilder.Entity("ShareURLink.Models.LikeModel", b =>
                 {
+                    b.HasOne("ShareURLink.Models.LinkModel", "Link")
+                        .WithMany("Likes")
+                        .HasForeignKey("LinkId");
+
                     b.HasOne("ShareURLink.Models.UserModel", "User")
                         .WithMany("LinksILike")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Link");
 
                     b.Navigation("User");
                 });
@@ -337,6 +345,11 @@ namespace ShareURLink.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ShareURLink.Models.LinkModel", b =>
+                {
+                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("ShareURLink.Models.UserModel", b =>

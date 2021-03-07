@@ -8,6 +8,7 @@ namespace ShareURLink.Services.Interfaces
 {
     public interface ILikeService
     {
-        public void Create(LinkModel link, UserModel user);
+        public void CreateLike(LinkModel link, UserModel user);
+        public void RemoveLike(LinkModel link, UserModel user);
     }
 }

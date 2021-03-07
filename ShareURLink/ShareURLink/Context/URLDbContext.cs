@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShareURLink.Models;
 using System;
@@ -12,10 +13,10 @@ namespace ShareURLink.Context
     {
         public URLDbContext(DbContextOptions<URLDbContext> dbContextOptions): base(dbContextOptions)
         {
-
+            
         }
+
         public DbSet<LinkModel> Links { get; set; }
         public DbSet<LikeModel> Likes { get; set; }
-
     }
 }

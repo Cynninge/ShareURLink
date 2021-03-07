@@ -157,9 +157,6 @@ namespace ShareURLink.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("LikedOrNot")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("LinkId")
                         .HasColumnType("int");
 

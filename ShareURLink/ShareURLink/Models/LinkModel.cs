@@ -18,8 +18,8 @@ namespace ShareURLink.Models
         public string LinkURL { get; set; }
         [Display(Name="Created")]
         public DateTime DateCreated { get; set; }        
-        public UserModel User { get; set; }           
-        public ICollection<LikeModel> Likes { get; set; }        
+        public UserModel User { get; set; }
+        public IList<LikeModel> Likes { get; set; }   
         public int LikesCount { get; set; } 
 
         
