@@ -64,15 +64,17 @@ namespace ShareURLink.Controllers
         public async Task<IActionResult> LikeItPost(int id)
         {            
             var user = await userManager.GetUserAsync(this.User);
+            string message;
             try
             {
-                linkService.LikeIt(user, id);
+                message = linkService.LikeIt(user, id);
             }
             catch (System.Exception)
             {
                 throw;
             }
-            return Redirect("~/Home/Index");
+            TempData["message"] = message;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

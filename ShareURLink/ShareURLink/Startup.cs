@@ -34,6 +34,7 @@ namespace ShareURLink
                     .AddDefaultTokenProviders();
             services.AddScoped<ILinkService, LinkService>();
             services.AddScoped<ILikeService, LikeService>();
+            services.AddSession();
             services.AddMvc();
         }
 
@@ -45,6 +46,7 @@ namespace ShareURLink
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
             app.UseStaticFiles();

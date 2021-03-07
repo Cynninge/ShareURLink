@@ -28,7 +28,8 @@ namespace ShareURLink.Services
 
         public void RemoveLike(LinkModel link, UserModel user)
         {
-            _context.Likes.Remove(_context.Likes.FirstOrDefault(like => like.Link == link & like.User == user));
+            var like = _context.Likes.FirstOrDefault(like => like.Link == link & like.User == user);
+
             _context.SaveChanges();
         }
     }
