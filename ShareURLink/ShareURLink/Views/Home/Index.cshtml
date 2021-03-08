@@ -1,7 +1,7 @@
 ﻿@model IPagedList<ShareURLink.Models.LinkModel>
 @inject SignInManager<UserModel> signInManager;
-@using PagedList;
-@using PagedList.Mvc;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Home";
@@ -74,4 +74,10 @@
         }
     </tbody>
 </table>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page  = page }),
+    new X.PagedList.Mvc.Core.Common.PagedListRenderOptions
+    {
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+    })

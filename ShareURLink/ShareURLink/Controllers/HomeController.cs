@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PagedList.Mvc;
-using PagedList;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShareURLink.Services.Interfaces;
+using System.Threading.Tasks;
+using X.PagedList;
 
 namespace ShareURLink.Controllers
 {
@@ -16,10 +12,13 @@ namespace ShareURLink.Controllers
         {
             _linkService = linkService;
         }
-        public IActionResult Index(int? page)
+        public async Task<IActionResult> Index(int? page)
         {
             var LinksList = _linkService.GetLinks();
-            return View(LinksList.ToPagedList(page ?? 1,3));
+            var pageNumber = page ?? 1;
+            var perPage = 25;
+            var onePageOfEvents = await LinksList.ToPagedListAsync(pageNumber, perPage);
+            return View(onePageOfEvents);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using ShareURLink.Context;
 using ShareURLink.Models;
 using ShareURLink.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShareURLink.Services
 {

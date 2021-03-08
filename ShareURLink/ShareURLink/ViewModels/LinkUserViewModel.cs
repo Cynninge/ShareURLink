@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ShareURLink.Models;
-using System;
+﻿using ShareURLink.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ShareURLink.ViewModels
 {

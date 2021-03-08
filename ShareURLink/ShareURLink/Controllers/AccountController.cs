@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShareURLink.Models;
 using ShareURLink.Services.Interfaces;
@@ -32,7 +31,7 @@ namespace ShareURLink.Controllers
             };
             if(await userManager.GetUserAsync(this.User) != linkUserViewModel.User)
             {
-                return RedirectToAction("Index", "Home");
+                return View("Denied");
             }
             return View(linkUserViewModel);
         }

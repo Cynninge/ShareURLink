@@ -10,10 +10,12 @@ namespace ShareURLink.Controllers
     {
         private readonly ILinkService linkService;
         private readonly UserManager<UserModel> userManager;
-        public LinkController(ILinkService linkService, UserManager<UserModel> userManager)
+        private readonly SignInManager<UserModel> signInManager;
+        public LinkController(ILinkService linkService, UserManager<UserModel> userManager, SignInManager<UserModel> signInManager)
         {
             this.linkService = linkService;
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
         public IActionResult Index()
         {
@@ -21,12 +23,18 @@ namespace ShareURLink.Controllers
         }
         [HttpGet]
         public IActionResult Create()
-        {            
-            return View();
+        {
+            if(signInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            return View("Denied");
+
         }
         [HttpPost]
         public async Task<IActionResult> Create(LinkModel linkUser)
         {
+            
             linkUser.User =  await userManager.GetUserAsync(this.User);
             if(ModelState.IsValid)
             {
@@ -40,16 +48,26 @@ namespace ShareURLink.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var linkModel = linkService.GetLink(id);
-            return View(linkModel);
+            if (signInManager.IsSignedIn(User))
+            {
+                var linkModel = linkService.GetLink(id);
+                if (await userManager.GetUserAsync(this.User) != linkModel.User)
+                {
+                    return View("Denied");
+                }
+                return View(linkModel);
+            }
+            return View("Denied");
+
         }
 
         [HttpPost]
         public IActionResult DeleteConfirm(int id)
         {            
             linkService.RemoveLink(id);
+            TempData["message"] = "Link removed";
             return Redirect("~/Home/Index");
         }
 
