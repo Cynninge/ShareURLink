@@ -16,6 +16,11 @@ namespace ShareURLink.Context
             
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<LinkModel> Links { get; set; }
         public DbSet<LikeModel> Likes { get; set; }
     }

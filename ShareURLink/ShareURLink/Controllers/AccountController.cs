@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShareURLink.Models;
 using ShareURLink.Services.Interfaces;
@@ -18,7 +19,7 @@ namespace ShareURLink.Controllers
             this.signInManager = signInManager;
             this.linkService = linkService;
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> Profile(string name)
         {
@@ -29,6 +30,10 @@ namespace ShareURLink.Controllers
                 Links = userLinks,
                 User = user
             };
+            if(await userManager.GetUserAsync(this.User) != linkUserViewModel.User)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View(linkUserViewModel);
         }
 

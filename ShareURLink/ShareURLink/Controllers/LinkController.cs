@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShareURLink.Models;
 using ShareURLink.Services.Interfaces;
-using ShareURLink.ViewModels;
 using System.Threading.Tasks;
 
 namespace ShareURLink.Controllers
@@ -36,9 +35,9 @@ namespace ShareURLink.Controllers
             else
             {
                 return View(linkUser);
-            }                 
-               
-            return Redirect("~/Home/Index");
+            }
+            TempData["message"] = "Link added";
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult Delete(int id)
@@ -53,12 +52,6 @@ namespace ShareURLink.Controllers
             linkService.RemoveLink(id);
             return Redirect("~/Home/Index");
         }
-
-        //[HttpGet]
-        //public IActionResult LikeIt(int id)
-        //{
-        //    return RedirectToAction("LikeItPost", "Link", id);
-        //}
 
         [HttpPost]
         public async Task<IActionResult> LikeItPost(int id)

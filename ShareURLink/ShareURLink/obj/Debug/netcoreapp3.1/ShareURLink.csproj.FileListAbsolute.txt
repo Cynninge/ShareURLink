@@ -136,7 +136,6 @@ C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\bin\Debug\netcorea
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\ShareURLink.csprojAssemblyReference.cache
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\staticwebassets\ShareURLink.StaticWebAssets.Manifest.cache
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\staticwebassets\ShareURLink.StaticWebAssets.xml
-C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\ShareURLink.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\ShareURLink.RazorAssemblyInfo.cache
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\ShareURLink.RazorAssemblyInfo.cs
 C:\Users\Cynninge\Desktop\ShareURLink\ShareURLink\ShareURLink\obj\Debug\netcoreapp3.1\ShareURLink.AssemblyInfoInputs.cache

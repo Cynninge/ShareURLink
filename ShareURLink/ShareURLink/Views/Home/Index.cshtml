@@ -1,5 +1,7 @@
-﻿@model IEnumerable<ShareURLink.Models.LinkModel>
+﻿@model IPagedList<ShareURLink.Models.LinkModel>
 @inject SignInManager<UserModel> signInManager;
+@using PagedList;
+@using PagedList.Mvc;
 
 @{
     ViewData["Title"] = "Home";
@@ -21,13 +23,13 @@
                 <span>#</span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                @Html.DisplayNameFor(model => model.First().DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Likes)
+                @Html.DisplayNameFor(model => model.First().Likes)
             </th>
             <th>
 
@@ -72,3 +74,4 @@
         }
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

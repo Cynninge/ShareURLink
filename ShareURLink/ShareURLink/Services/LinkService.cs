@@ -38,10 +38,10 @@ namespace ShareURLink.Services
         public void RemoveLink(int id)
         {
             var link = _context.Links.FirstOrDefault(x => x.Id == id);
-            var like = _context.Likes.FirstOrDefault(x => x.Link == link);
-            if (!(like is null))
+            var likesOfRemovedLink = _context.Likes.Where(x => x.Link == link);
+            if (!(likesOfRemovedLink is null))
             {
-                _context.Likes.Remove(like);
+                _context.RemoveRange(likesOfRemovedLink);
             }           
             _context.Links.Remove(link);
             _context.SaveChanges();
@@ -73,28 +73,25 @@ namespace ShareURLink.Services
             {
                 _likeService.CreateLike(link, user);
                 LikesCounter(link);
-                message = "You like this link";
-                return message;
+                return message = "You like this link";
             }
-            else if(userData.MyLinks.Contains(link))
-            {
-                message = "This is your link";
-                return message;
+            else if (userData.MyLinks.Contains(link))
+            {                
+                return message = "This is your link";
             }
             else
             {
-                if (userData.LinksILike.Any(x => x.Link == link))
+                var like = _context.Likes.FirstOrDefault(like => like.Link == link & like.User == user);
+                if (like is null)
                 {
-                    _likeService.RemoveLike(link, user);
-                    LikesCounter(link);
-                    message = "You don't like this link anymore";
-                    return message;
+                    _likeService.CreateLike(link, user);
+                    LikesCounter(link);                    
+                    return message = "You like this link";
                 }
                 else
                 {
-                    _likeService.CreateLike(link, user);
+                    message = _likeService.ChangeStatus(like);
                     LikesCounter(link);
-                    message = "You like this link";
                     return message;
                 }
             }
@@ -102,7 +99,7 @@ namespace ShareURLink.Services
 
         public void LikesCounter(LinkModel link)
         {
-            link.LikesCount = link.Likes.Count();
+            link.LikesCount = link.Likes.Where(x => x.IsLiked == true).Count();
             _context.Links.Update(link);
             _context.SaveChanges();
         }

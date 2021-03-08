@@ -20,17 +20,28 @@ namespace ShareURLink.Services
             var like = new LikeModel
             {
                 User = user,
-                Link = link
+                Link = link,
+                IsLiked = true
             };
             _context.Likes.Add(like);
             _context.SaveChanges();
         }
 
-        public void RemoveLike(LinkModel link, UserModel user)
+        public string ChangeStatus(LikeModel like)
         {
-            var like = _context.Likes.FirstOrDefault(like => like.Link == link & like.User == user);
-
+            string message;
+            if (like.IsLiked == true)
+            {
+                like.IsLiked = false;
+                message = "You don't like this link anymore";                
+            }
+            else
+            {
+                like.IsLiked = true;
+                message = "You like this link";
+            }
             _context.SaveChanges();
+            return message;            
         }
     }
 }
